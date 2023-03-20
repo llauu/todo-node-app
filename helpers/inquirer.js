@@ -5,7 +5,8 @@ const questions = [
   {
     type: 'list',
     name: 'option',
-    message: 'What do you want to do?',
+    message: 'What do you want to do?'.bold,
+    prefix: '',
     choices: [
       {
         value: 1,
@@ -41,9 +42,9 @@ const questions = [
 
 const inquirerMenu = async () => {
   console.clear();
-  console.log('+--------------------+'.green);
-  console.log('|  Choose an option  |'.green);
-  console.log('+--------------------+\n'.green);
+  console.log('  ┌──────────────────┐'.cyan);
+  console.log('  │    '.cyan + 'To Do List'.underline + '    │'.cyan);
+  console.log('  └──────────────────┘\n'.cyan);
 
   const { option } = await inquirer.prompt(questions);
 
@@ -55,13 +56,33 @@ const pause = async () => {
     {
       type: 'input',
       name: 'pause',
-      message: `\nPress ${'ENTER'.green} to continue.\n`,
+      message: `\nPress ${'ENTER'.magenta} to continue.\n`,
       prefix: '',
     },
   ]);
 };
 
+const input = async (message) => {
+  const { inputData } = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'inputData',
+      message: message,
+      prefix: '',
+      validate(value) {
+        if (value.length === 0) {
+          return `${'[ERROR]'.red} Please enter a value.`;
+        }
+        return true;
+      },
+    },
+  ]);
+
+  return inputData; // inputData its what we give in the 'name: ' property
+};
+
 module.exports = {
   inquirerMenu,
   pause,
+  input,
 };
