@@ -1,12 +1,17 @@
 const { inquirerMenu, pause, input } = require('./helpers/inquirer.js');
 const Task = require('./models/task.js');
 const Tasks = require('./models/tasks.js');
-const { saveData } = require('./helpers/saveFile.js');
+const { saveData, readData } = require('./helpers/dbInteractions.js');
 
 console.clear();
 
 let opt;
 const tasks = new Tasks();
+const dbTasks = readData();
+
+if(dbTasks) {
+  tasks.loadTasksFromArray(dbTasks);
+}
 
 const main = async () => {
   do {
@@ -19,7 +24,7 @@ const main = async () => {
         break;
 
       case 2:
-        console.log(tasks.listArr);
+        readData();
         break;
 
       case 3:
