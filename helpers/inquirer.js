@@ -65,8 +65,8 @@ const listTasksToDelete = async (tasks) => {
 
   choices.push({
     value: 0,
-    name: `${'0.'.cyan} Cancel`
-  })
+    name: `${'0.'.cyan} Cancel`,
+  });
 
   const { id } = await inquirer.prompt([
     {
@@ -90,7 +90,7 @@ const listTasksToComplete = async (tasks) => {
     return {
       value: task.id,
       name: `${id} ${task.desc}`,
-      checked: (task.completed) ? true : false,
+      checked: task.completed ? true : false,
     };
   });
 

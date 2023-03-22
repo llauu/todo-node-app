@@ -1,4 +1,4 @@
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 // v4: uuidv4 -> (import v4 function but when i use it i will use it as uuidv4)
 
 class Task {
