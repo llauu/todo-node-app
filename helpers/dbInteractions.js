@@ -14,8 +14,6 @@ const readData = () => {
   const info = fs.readFileSync(filePath, { encoding: 'utf-8' });
   const data = JSON.parse(info); // parse a JSON to an object
 
-  console.log(data);
-
   return data;
 };
 

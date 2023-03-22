@@ -1,4 +1,11 @@
-const { inquirerMenu, pause, input } = require('./helpers/inquirer.js');
+const {
+  inquirerMenu,
+  listTasksToDelete,
+  listTasksToComplete,
+  confirm,
+  pause,
+  input,
+} = require('./helpers/inquirer.js');
 const Task = require('./models/task.js');
 const Tasks = require('./models/tasks.js');
 const { saveData, readData } = require('./helpers/dbInteractions.js');
@@ -9,7 +16,7 @@ let opt;
 const tasks = new Tasks();
 const dbTasks = readData();
 
-if(dbTasks) {
+if (dbTasks) {
   tasks.loadTasksFromArray(dbTasks);
 }
 
@@ -18,28 +25,42 @@ const main = async () => {
     opt = await inquirerMenu();
 
     switch (opt) {
-      case 1:
+      case 1: // create task
         const desc = await input('Description:');
         tasks.createTask(desc);
         break;
 
-      case 2:
-        readData();
+      case 2: // list tasks
+        tasks.fullList();
         break;
 
-      case 3:
+      case 3: // list completed tasks
+        tasks.listCompletedOrPending(true);
         break;
 
-      case 4:
+      case 4: // list pending tasks
+        tasks.listCompletedOrPending(false);
         break;
 
-      case 5:
+      case 5: // complete task
+        const idsToComplete = await listTasksToComplete(tasks.listArr);
+        tasks.toggleCompleted(idsToComplete);
         break;
 
-      case 6:
+      case 6: // delete task
+        const idToDelete = await listTasksToDelete(tasks.listArr);
+
+        if (idToDelete !== 0) {
+          const ok = await confirm('Are you sure?');
+
+          if (ok) {
+            tasks.deleteTask(idToDelete);
+            console.log('Task deleted.');
+          }
+        }
         break;
 
-      case 0:
+      case 0: // leave
         break;
     }
 
