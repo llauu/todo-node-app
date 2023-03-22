@@ -33,28 +33,28 @@ class Tasks {
   }
 
   deleteTask(id) {
-    if(this._list[id]) {
+    if (this._list[id]) {
       delete this._list[id];
     }
   }
 
   toggleCompleted(ids) {
-    ids.forEach(id => {
+    ids.forEach((id) => {
       const task = this._list[id];
 
-      if(!task.completed) {
+      if (!task.completed) {
         task.completed = true;
       }
-    })
+    });
 
-    // si el id no viene en el array de ids quiere decir que la tarea no esta completada, por lo que la ponemos en false 
+    // si el id no viene en el array de ids quiere decir que la tarea no esta completada, por lo que la ponemos en false
     // esto causaba un problema porque si por ejemplo desmarcaba una tarea que ya estaba completada antes, esa tarea seguia apareciendo como completada
     // entonces con esto lo q hago es "barrer" y formatear por asi decirlo todas las tareas las cuales no fueron seleccionadas a completed=false
-    this.listArr.forEach(task => {
-      if(!ids.includes(task.id)) { // If the task.id doesnt exist in the ids array
+    this.listArr.forEach((task) => {
+      if (!ids.includes(task.id)) { // If the task.id doesnt exist in the ids array
         this._list[task.id].completed = false; // Mark as task not completed
       }
-    })
+    });
   }
 
   fullList() {
